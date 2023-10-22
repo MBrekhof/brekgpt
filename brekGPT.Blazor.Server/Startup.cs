@@ -18,6 +18,7 @@ using DevExpress.ExpressApp.WebApi.Services;
 using brekGPT.WebApi.JWT;
 using DevExpress.ExpressApp.Security.Authentication;
 using DevExpress.ExpressApp.Security.Authentication.ClientServer;
+using Swashbuckle.AspNetCore.SwaggerUI;
 
 namespace brekGPT.Blazor.Server;
 
@@ -84,7 +85,8 @@ public class Startup {
                         }
 #endif
                         ArgumentNullException.ThrowIfNull(connectionString);
-                        options.UseSqlServer(connectionString);
+                        // options.UseSqlServer(connectionString);
+                        options.UseNpgsql(connectionString, o => o.UseVector()).UseLowerCaseNamingConvention();
                         options.UseChangeTrackingProxies();
                         options.UseObjectSpaceLinkProxies();
                         options.UseLazyLoadingProxies();
@@ -171,7 +173,10 @@ public class Startup {
                     },
             });
         });
-
+        services.AddScoped<SettingsService>();
+        services.AddScoped<VectorService>();
+        services.AddScoped<OpenAILLMService>();
+        services.AddScoped<MailService>();
         services.Configure<Microsoft.AspNetCore.Mvc.JsonOptions>(o => {
             //The code below specifies that the naming of properties in an object serialized to JSON must always exactly match
             //the property names within the corresponding CLR type so that the property names are displayed correctly in the Swagger UI.
@@ -186,15 +191,29 @@ public class Startup {
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env) {
         if(env.IsDevelopment()) {
             app.UseDeveloperExceptionPage();
-            app.UseSwagger();
-            app.UseSwaggerUI(c => {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "brekGPT WebApi v1");
-            });
         }
         else {
             app.UseExceptionHandler("/Error");
             // The default HSTS value is 30 days. To change this for production scenarios, see: https://aka.ms/aspnetcore-hsts.
             app.UseHsts();
+        }
+        if (env.IsDevelopment())
+        {
+            // ...
+            app.UseSwagger();
+            app.UseSwaggerUI(c => {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "mbGPT WebApi v1");
+                c.DocExpansion(DocExpansion.None); //Close all of the major nodes  
+            });
+        }
+        else
+        {
+            app.UsePathBase("/mbgpt");
+            app.UseSwagger();
+            app.UseSwaggerUI(c => {
+                c.SwaggerEndpoint("/mbgpt/swagger/v1/swagger.json", "mbGPT WebApi v1");
+                c.DocExpansion(DocExpansion.None); //Close all of the major nodes  
+            });
         }
         app.UseHttpsRedirection();
         app.UseRequestLocalization();

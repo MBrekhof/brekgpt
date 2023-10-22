@@ -53,11 +53,11 @@ public class ApplicationBuilder : IDesignTimeApplicationFactory {
                 options.AllowValidationDetailsAccess = false;
             })
             .AddViewVariants()
-            .Add<brekGPT.Module.brekGPTModule>()
+            .Add<Module.brekGPTModule>()
         	.Add<brekGPTWinModule>();
         builder.ObjectSpaceProviders
             .AddEFCore(options => options.PreFetchReferenceProperties())
-                .WithDbContext<brekGPT.Module.BusinessObjects.brekGPTEFCoreDbContext>((application, options) => {
+                .WithDbContext<Module.BusinessObjects.brekGPTEFCoreDbContext>((application, options) => {
                     options.UseMiddleTier(application.Security);
                     options.UseChangeTrackingProxies();
                     options.UseObjectSpaceLinkProxies();
@@ -87,8 +87,8 @@ public class ApplicationBuilder : IDesignTimeApplicationFactory {
     }
 
     XafApplication IDesignTimeApplicationFactory.Create() {
-        DevExpress.EntityFrameworkCore.Security.MiddleTier.ClientServer.MiddleTierClientSecurity.DesignModeUserType = typeof(brekGPT.Module.BusinessObjects.ApplicationUser);
-        DevExpress.EntityFrameworkCore.Security.MiddleTier.ClientServer.MiddleTierClientSecurity.DesignModeRoleType = typeof(DevExpress.Persistent.BaseImpl.EF.PermissionPolicy.PermissionPolicyRole);
+        MiddleTierClientSecurityBase.DesignModeUserType = typeof(Module.BusinessObjects.ApplicationUser);
+        MiddleTierClientSecurityBase.DesignModeRoleType = typeof(PermissionPolicyRole);
         return BuildApplication();
     }
 }
