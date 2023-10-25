@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>net6.0-windows</TargetFramework>
+    <TargetFramework>net7.0-windows</TargetFramework>
     <CheckEolTargetFramework>false</CheckEolTargetFramework>
     <UseWindowsForms>true</UseWindowsForms>
     <ApplicationIcon>ExpressApp.ico</ApplicationIcon>
@@ -48,6 +48,7 @@
     <PackageReference Include="DevExpress.Persistent.BaseImpl.EFCore" Version="23.2.1-alpha-23255" />
     <PackageReference Include="DevExpress.RichEdit.Export" Version="23.2.1-alpha-23255" />
     <PackageReference Include="DevExpress.Win.Design" Version="23.2.1-alpha-23255" />
+    <PackageReference Include="Markdig" Version="0.33.0" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\brekGPT.Module\brekGPT.Module.csproj" />

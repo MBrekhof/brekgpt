@@ -1,24 +1,24 @@
-﻿using DevExpress.ExpressApp.Security;
+﻿using brekGPT.Blazor.Server.Services;
+using brekGPT.Module.Services;
+using brekGPT.WebApi.JWT;
 using DevExpress.ExpressApp.ApplicationBuilder;
 using DevExpress.ExpressApp.Blazor.ApplicationBuilder;
 using DevExpress.ExpressApp.Blazor.Services;
-using DevExpress.Persistent.Base;
-using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Components.Server.Circuits;
-using Microsoft.EntityFrameworkCore;
-using brekGPT.Blazor.Server.Services;
+using DevExpress.ExpressApp.Security;
+using DevExpress.ExpressApp.Security.Authentication.ClientServer;
+using DevExpress.ExpressApp.WebApi.Services;
 using DevExpress.Persistent.BaseImpl.EF.PermissionPolicy;
-using System.Text;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Components.Server.Circuits;
+using Microsoft.AspNetCore.OData;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
-using Microsoft.AspNetCore.OData;
-using DevExpress.ExpressApp.WebApi.Services;
-using brekGPT.WebApi.JWT;
-using DevExpress.ExpressApp.Security.Authentication;
-using DevExpress.ExpressApp.Security.Authentication.ClientServer;
 using Swashbuckle.AspNetCore.SwaggerUI;
+using System.Text;
+using Pgvector.EntityFrameworkCore;
 
 namespace brekGPT.Blazor.Server;
 

@@ -1,14 +1,12 @@
-﻿using System.ComponentModel;
+﻿using DevExpress.ExpressApp.ConditionalAppearance;
+using DevExpress.ExpressApp.Security;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Runtime.CompilerServices;
-using DevExpress.ExpressApp;
-using DevExpress.ExpressApp.ConditionalAppearance;
-using DevExpress.ExpressApp.Security;
 
 namespace brekGPT.Module.BusinessObjects;
 
-[Table("PermissionPolicyUserLoginInfo")]
+[Table("permissionpolicyuserlogininfo")]
 public class ApplicationUserLoginInfo : ISecurityUserLoginInfo {
 
     public ApplicationUserLoginInfo() { }

@@ -4,7 +4,7 @@ using System.CodeDom;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace DocGPT.Module.BusinessObjects;
+namespace brekGPT.Module.BusinessObjects;
 [DefaultClassOptions]
 [NavigationItem("Knowledge")]
 public partial class ArticleVectorData : BaseObjectNoID

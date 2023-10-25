@@ -8,8 +8,8 @@ namespace brekGPT.Module.Services
     public class VectorService
     {
 
-        private readonly mbGPTEFCoreDbContext _dbContext;
-        public VectorService(mbGPTEFCoreDbContext dbContext)
+        private readonly brekGPTEFCoreDbContext _dbContext;
+        public VectorService(brekGPTEFCoreDbContext dbContext)
         {
 
             _dbContext = dbContext;

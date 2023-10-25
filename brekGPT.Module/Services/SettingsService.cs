@@ -5,14 +5,14 @@ namespace brekGPT.Module.Services
 {
     public class SettingsService
     {
-        mbGPTEFCoreDbContext _dbContext;
+        brekGPTEFCoreDbContext _dbContext;
         Settings _settings;
 
         /// <summary>
         /// Constructor of settingsservice
         /// </summary>
         /// <param name="dbContext"></param>
-        public SettingsService(mbGPTEFCoreDbContext dbContext) 
+        public SettingsService(brekGPTEFCoreDbContext dbContext) 
         {
             _dbContext = dbContext;
         }

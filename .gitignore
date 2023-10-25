@@ -5,3 +5,8 @@ brekGPT.E2E.Tests/obj
 brekGPT.MiddleTier/obj
 brekGPT.Module/obj
 brekGPT.Win/obj
+.vs/ProjectEvaluation
+brekGPT.Blazor.Server/bin
+brekGPT.MiddleTier/bin
+brekGPT.Module/bin
+brekGPT.Win/bin

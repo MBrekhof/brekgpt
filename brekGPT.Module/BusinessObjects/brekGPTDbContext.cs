@@ -1,13 +1,13 @@
-﻿using DevExpress.ExpressApp.EFCore.Updating;
+﻿using DevExpress.ExpressApp.Design;
+using DevExpress.ExpressApp.EFCore.DesignTime;
+using DevExpress.Persistent.BaseImpl.EF;
+using DevExpress.Persistent.BaseImpl.EF.PermissionPolicy;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
-using DevExpress.Persistent.BaseImpl.EF.PermissionPolicy;
-using DevExpress.Persistent.BaseImpl.EF;
-using DevExpress.ExpressApp.Design;
-using DevExpress.ExpressApp.EFCore.DesignTime;
 using Microsoft.Extensions.Configuration;
-using brekGPT.Module.BusinessObjects;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
+using Pgvector.EntityFrameworkCore;
 
 namespace brekGPT.Module.BusinessObjects;
 
@@ -32,7 +32,7 @@ public class brekGPTDesignTimeDbContextFactory : IDesignTimeDbContextFactory<bre
         // Get connection string from configuration
         var connectionString = configuration.GetConnectionString("ConnectionString");
 
-        var optionsBuilder = new DbContextOptionsBuilder<mbGPTEFCoreDbContext>();
+        var optionsBuilder = new DbContextOptionsBuilder<brekGPTEFCoreDbContext>();
         //optionsBuilder.UseSqlServer("Encrypt=false;Integrated Security=SSPI;MultipleActiveResultSets=True;Data Source=BCH-BTO;Initial Catalog=E965_EFCore");
         //TODO: get this from a config file?
         optionsBuilder.UseNpgsql(connectionString, o => o.UseVector()).UseLowerCaseNamingConvention();
@@ -65,10 +65,6 @@ public class brekGPTEFCoreDbContext : DbContext {
 
     public DbSet<CodeObject> CodeObject { get; set; }
     public DbSet<CodeObjectCategory> CodeObjectCategory { get; set; }
-
-    public DbSet<WebSiteData> WebSiteData { get; set; }
-
-
     public DbSet<Settings> Settings { get; set; }
     public DbSet<ChatModel> ChatModel { get; set; }
 
@@ -107,6 +103,7 @@ public class brekGPTEFCoreDbContext : DbContext {
         //optionsBuilder.UseSqlServer("Encrypt=false;Integrated Security=SSPI;MultipleActiveResultSets=True;Data Source=BCH-BTO;Initial Catalog=E965_EFCore");
         //TODO: get this from a config file?
         optionsBuilder.UseNpgsql(connectionString, o => o.UseVector()).UseLowerCaseNamingConvention();
+        optionsBuilder.UseChangeTrackingProxies();
     }
     public static readonly ILoggerFactory MyLoggerFactory
     = LoggerFactory.Create(builder => { builder.AddDebug(); });
