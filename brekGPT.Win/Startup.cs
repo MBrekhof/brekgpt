@@ -1,21 +1,16 @@
-﻿using System.Configuration;
-using DevExpress.ExpressApp;
+﻿using DevExpress.ExpressApp;
 using DevExpress.ExpressApp.ApplicationBuilder;
-using DevExpress.ExpressApp.Win.ApplicationBuilder;
-using DevExpress.ExpressApp.Security;
-using DevExpress.ExpressApp.Win;
-using DevExpress.Persistent.Base;
-using Microsoft.EntityFrameworkCore;
-using DevExpress.ExpressApp.EFCore;
-using DevExpress.EntityFrameworkCore.Security;
-using DevExpress.XtraEditors;
-using System.Net;
-using System.Net.Http.Json;
-using System.Net.Http.Headers;
-using System.Net.Http;
-using DevExpress.ExpressApp.Security.ClientServer;
-using DevExpress.Persistent.BaseImpl.EF.PermissionPolicy;
 using DevExpress.ExpressApp.Design;
+using DevExpress.ExpressApp.Security;
+using DevExpress.ExpressApp.Security.ClientServer;
+using DevExpress.ExpressApp.Win;
+using DevExpress.ExpressApp.Win.ApplicationBuilder;
+using DevExpress.Persistent.BaseImpl.EF.PermissionPolicy;
+using Microsoft.EntityFrameworkCore;
+using System.Net;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Net.Http.Json;
 
 namespace brekGPT.Win;
 

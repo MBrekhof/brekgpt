@@ -4,6 +4,7 @@ using DevExpress.Persistent.BaseImpl.EF;
 using DevExpress.Persistent.BaseImpl.EF.PermissionPolicy;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
@@ -17,7 +18,7 @@ public class brekGPTContextInitializer : DbContextTypesInfoInitializerBase {
 	protected override DbContext CreateDbContext() {
 		var optionsBuilder = new DbContextOptionsBuilder<brekGPTEFCoreDbContext>()
             //.UseSqlServer(";")
-            .UseNpgsql(";")
+            .UseNpgsql(";", o => o.UseVector()).UseLowerCaseNamingConvention()
             .UseChangeTrackingProxies()
             .UseObjectSpaceLinkProxies();
         return new brekGPTEFCoreDbContext(optionsBuilder.Options);
@@ -75,36 +76,43 @@ public class brekGPTEFCoreDbContext : DbContext {
     public DbSet<UsedKnowledge> UsedKnowledge { get; set; }
     public DbSet<Cost> Cost { get; set; }
 
-    protected override void OnModelCreating(ModelBuilder modelBuilder) {
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
         base.OnModelCreating(modelBuilder);
         modelBuilder.HasChangeTrackingStrategy(ChangeTrackingStrategy.ChangingAndChangedNotificationsWithOriginalValues);
         modelBuilder.UsePropertyAccessMode(PropertyAccessMode.PreferFieldDuringConstruction);
-        modelBuilder.Entity<ApplicationUserLoginInfo>(b => {
+        modelBuilder.Entity<ApplicationUserLoginInfo>(b =>
+        {
             b.HasIndex(nameof(DevExpress.ExpressApp.Security.ISecurityUserLoginInfo.LoginProviderName), nameof(DevExpress.ExpressApp.Security.ISecurityUserLoginInfo.ProviderUserKey)).IsUnique();
         });
         modelBuilder.Entity<ModelDifference>()
             .HasMany(t => t.Aspects)
             .WithOne(t => t.Owner)
             .OnDelete(DeleteBehavior.Cascade);
-        modelBuilder.Entity<Article>()
-    .HasMany(e => e.ArticleDetail)
-    .WithOne(e => e.Article)
-    .OnDelete(DeleteBehavior.ClientCascade);
+        modelBuilder.Entity<Article>().HasMany(e => e.ArticleDetail).WithOne(e => e.Article)    .OnDelete(DeleteBehavior.ClientCascade);
+
+        var dateTimeConverter = new ValueConverter<DateTime, DateTime>(
+            v => v.ToUniversalTime(), // Convert to UTC when writing to the database
+            v => DateTime.SpecifyKind(v, DateTimeKind.Utc).ToLocalTime() // Convert to local time when reading from the database
+        );
+        foreach (var entityType in modelBuilder.Model.GetEntityTypes())
+        {
+            foreach (var property in entityType.GetProperties())
+            {
+                if (property.ClrType == typeof(DateTime) || property.ClrType == typeof(DateTime?))
+                {
+                    property.SetValueConverter(dateTimeConverter);
+                }
+            }
+        }
     }
 
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-    {
-        optionsBuilder.UseLoggerFactory(MyLoggerFactory);
-        var configuration = new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory()).AddJsonFile("appsettings.json").Build();
+    //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    //{
+    //    var connectionString = "Server=localhost;Port=5432;Database=postgres;User Id=postgres;Password=<secret>;Include Error Detail=True;";
 
-        // Get connection string from configuration
-        var connectionString = configuration.GetConnectionString("ConnectionString");
-
-        //optionsBuilder.UseSqlServer("Encrypt=false;Integrated Security=SSPI;MultipleActiveResultSets=True;Data Source=BCH-BTO;Initial Catalog=E965_EFCore");
-        //TODO: get this from a config file?
-        optionsBuilder.UseNpgsql(connectionString, o => o.UseVector()).UseLowerCaseNamingConvention();
-        optionsBuilder.UseChangeTrackingProxies();
-    }
+    //    optionsBuilder.UseNpgsql(connectionString, o => o.UseVector()).UseLowerCaseNamingConvention();
+    //}
     public static readonly ILoggerFactory MyLoggerFactory
     = LoggerFactory.Create(builder => { builder.AddDebug(); });
 }

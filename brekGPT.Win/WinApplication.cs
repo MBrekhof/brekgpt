@@ -1,15 +1,7 @@
-﻿using System.ComponentModel;
-using DevExpress.ExpressApp;
-using DevExpress.ExpressApp.ApplicationBuilder;
-using DevExpress.ExpressApp.Win;
+﻿using DevExpress.ExpressApp;
 using DevExpress.ExpressApp.Updating;
+using DevExpress.ExpressApp.Win;
 using DevExpress.ExpressApp.Win.Utils;
-using Microsoft.EntityFrameworkCore;
-using DevExpress.ExpressApp.EFCore;
-using DevExpress.EntityFrameworkCore.Security;
-using brekGPT.Module;
-using brekGPT.Module.BusinessObjects;
-using System.Data.Common;
 
 namespace brekGPT.Win;
 

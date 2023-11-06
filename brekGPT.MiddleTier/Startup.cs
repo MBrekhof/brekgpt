@@ -1,17 +1,16 @@
-﻿using DevExpress.ExpressApp.Security;
-using DevExpress.Persistent.Base;
-using Microsoft.EntityFrameworkCore;
-using DevExpress.Persistent.BaseImpl.EF.PermissionPolicy;
-using DevExpress.EntityFrameworkCore.Security.MiddleTier.ClientServer;
-using System.Text;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.IdentityModel.Tokens;
-using Microsoft.OpenApi.Models;
-using brekGPT.WebApi.JWT;
-using DevExpress.ExpressApp.Security.Authentication.ClientServer;
+﻿using brekGPT.WebApi.JWT;
 using DevExpress.ExpressApp;
 using DevExpress.ExpressApp.ApplicationBuilder;
+using DevExpress.ExpressApp.Security;
+using DevExpress.ExpressApp.Security.Authentication.ClientServer;
+using DevExpress.Persistent.BaseImpl.EF.PermissionPolicy;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
+using Pgvector.EntityFrameworkCore;
+using System.Text;
 
 namespace brekGPT.WebApi;
 
@@ -38,7 +37,7 @@ public class Startup {
 
             builder.ObjectSpaceProviders
                 .AddSecuredEFCore()
-                    .WithDbContext<brekGPT.Module.BusinessObjects.brekGPTEFCoreDbContext>((serviceProvider, options) => {
+                    .WithDbContext<Module.BusinessObjects.brekGPTEFCoreDbContext>((serviceProvider, options) => {
                         // Uncomment this code to use an in-memory database. This database is recreated each time the server starts. With the in-memory database, you don't need to make a migration when the data model is changed.
                         // Do not use this code in production environment to avoid data loss.
                         // We recommend that you refer to the following help topic before you use an in-memory database: https://docs.microsoft.com/en-us/ef/core/testing/in-memory
@@ -53,7 +52,8 @@ public class Startup {
                         }
 #endif
                         ArgumentNullException.ThrowIfNull(connectionString);
-                        options.UseSqlServer(connectionString);
+                        //options.UseSqlServer(connectionString);
+                        options.UseNpgsql(connectionString, o => o.UseVector()).UseLowerCaseNamingConvention();
                         options.UseChangeTrackingProxies();
                         options.UseObjectSpaceLinkProxies();
                         options.UseLazyLoadingProxies();

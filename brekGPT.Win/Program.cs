@@ -1,20 +1,5 @@
-﻿using System.Configuration;
-using DevExpress.ExpressApp;
-using DevExpress.ExpressApp.ApplicationBuilder;
-using DevExpress.ExpressApp.Win.ApplicationBuilder;
-using DevExpress.ExpressApp.Security;
-using DevExpress.ExpressApp.Win;
-using DevExpress.Persistent.Base;
-using Microsoft.EntityFrameworkCore;
-using DevExpress.ExpressApp.EFCore;
-using DevExpress.EntityFrameworkCore.Security;
+﻿using DevExpress.Persistent.Base;
 using DevExpress.XtraEditors;
-using System.Net;
-using System.Net.Http.Json;
-using System.Net.Http.Headers;
-using System.Net.Http;
-using DevExpress.ExpressApp.Security.ClientServer;
-using DevExpress.Persistent.BaseImpl.EF.PermissionPolicy;
 
 namespace brekGPT.Win;
 
@@ -32,7 +17,7 @@ static class Program {
         Application.EnableVisualStyles();
         Application.SetCompatibleTextRenderingDefault(false);
 		DevExpress.Utils.ToolTipController.DefaultController.ToolTipType = DevExpress.Utils.ToolTipType.SuperTip;
-        if(Tracing.GetFileLocationFromSettings() == DevExpress.Persistent.Base.FileLocation.CurrentUserApplicationDataFolder) {
+        if(Tracing.GetFileLocationFromSettings() == FileLocation.CurrentUserApplicationDataFolder) {
             Tracing.LocalUserAppDataPath = Application.LocalUserAppDataPath;
         }
         Tracing.Initialize();

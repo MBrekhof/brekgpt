@@ -9,7 +9,7 @@ using Pgvector;
 namespace brekGPT.Module.Migrations
 {
     /// <inheritdoc />
-    public partial class one : Migration
+    public partial class One : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

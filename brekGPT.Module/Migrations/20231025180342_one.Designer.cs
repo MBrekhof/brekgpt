@@ -15,7 +15,7 @@ namespace brekGPT.Module.Migrations
 {
     [DbContext(typeof(brekGPTEFCoreDbContext))]
     [Migration("20231025180342_one")]
-    partial class one
+    partial class One
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
