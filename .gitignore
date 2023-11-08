@@ -10,3 +10,4 @@ brekGPT.Blazor.Server/bin
 brekGPT.MiddleTier/bin
 brekGPT.Module/bin
 brekGPT.Win/bin
+.vs
