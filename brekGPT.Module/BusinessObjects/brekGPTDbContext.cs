@@ -18,7 +18,7 @@ public class brekGPTContextInitializer : DbContextTypesInfoInitializerBase {
 	protected override DbContext CreateDbContext() {
 		var optionsBuilder = new DbContextOptionsBuilder<brekGPTEFCoreDbContext>()
             //.UseSqlServer(";")
-            .UseNpgsql(";", o => o.UseVector()).UseLowerCaseNamingConvention()
+            .UseNpgsql(";").UseLowerCaseNamingConvention()
             .UseChangeTrackingProxies()
             .UseObjectSpaceLinkProxies();
         return new brekGPTEFCoreDbContext(optionsBuilder.Options);
@@ -36,8 +36,8 @@ public class brekGPTDesignTimeDbContextFactory : IDesignTimeDbContextFactory<bre
         var optionsBuilder = new DbContextOptionsBuilder<brekGPTEFCoreDbContext>();
         //optionsBuilder.UseSqlServer("Encrypt=false;Integrated Security=SSPI;MultipleActiveResultSets=True;Data Source=BCH-BTO;Initial Catalog=E965_EFCore");
         //TODO: get this from a config file?
-        optionsBuilder.UseNpgsql(connectionString, o => o.UseVector()).UseLowerCaseNamingConvention();
-        optionsBuilder.UseChangeTrackingProxies();
+       // optionsBuilder.UseNpgsql(connectionString).UseLowerCaseNamingConvention();
+        //optionsBuilder.UseChangeTrackingProxies();
         optionsBuilder.UseObjectSpaceLinkProxies();
         return new brekGPTEFCoreDbContext(optionsBuilder.Options);
     }
@@ -111,7 +111,7 @@ public class brekGPTEFCoreDbContext : DbContext {
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         var connectionString = "Server=localhost;Port=5432;Database=postgres;User Id=postgres;Password=1Zaqwsx2;Include Error Detail=True;";
-        optionsBuilder.UseChangeTrackingProxies();
+        //optionsBuilder.UseChangeTrackingProxies();
         optionsBuilder.UseNpgsql(connectionString, o => o.UseVector()).UseLowerCaseNamingConvention();
     }
     public static readonly ILoggerFactory MyLoggerFactory

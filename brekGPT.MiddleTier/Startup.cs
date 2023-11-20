@@ -32,7 +32,7 @@ public class Startup {
                 .AddReports(options => {
                     options.ReportDataType = typeof(DevExpress.Persistent.BaseImpl.EF.ReportDataV2);
                 })
-                .Add<brekGPT.Module.brekGPTModule>();
+                .Add<Module.brekGPTModule>();
 
 
             builder.ObjectSpaceProviders
@@ -52,8 +52,8 @@ public class Startup {
                         }
 #endif
                         ArgumentNullException.ThrowIfNull(connectionString);
-                        //options.UseSqlServer(connectionString);
-                        options.UseNpgsql(connectionString, o => o.UseVector()).UseLowerCaseNamingConvention();
+                    //options.UseSqlServer(connectionString);
+                    options.UseNpgsql(connectionString, o => o.UseVector()).UseLowerCaseNamingConvention();
                         options.UseChangeTrackingProxies();
                         options.UseObjectSpaceLinkProxies();
                         options.UseLazyLoadingProxies();

@@ -11,6 +11,7 @@ using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
+using Pgvector.EntityFrameworkCore;
 
 namespace brekGPT.Win;
 
@@ -52,7 +53,8 @@ public class ApplicationBuilder : IDesignTimeApplicationFactory {
         	.Add<brekGPTWinModule>();
         builder.ObjectSpaceProviders
             .AddEFCore(options => options.PreFetchReferenceProperties())
-                .WithDbContext<Module.BusinessObjects.brekGPTEFCoreDbContext>((application, options) => {
+                .WithDbContext<Module.BusinessObjects.brekGPTEFCoreDbContext>((application, options ) => {
+                    options.UseLowerCaseNamingConvention();
                     options.UseMiddleTier(application.Security);
                     options.UseChangeTrackingProxies();
                     options.UseObjectSpaceLinkProxies();
